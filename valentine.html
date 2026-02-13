@@ -1,0 +1,930 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Valentine's Day 💕</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Noto+Sans+Thai:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --pink: #ff6b9d;
+        --deep: #c9184a;
+        --blush: #ffb3c6;
+        --pale: #fff0f5;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #0d0008;
+        font-family: "Noto Sans Thai", sans-serif;
+      }
+
+      /* ── DEEP LAYERED BACKGROUND ── */
+      #bg-base {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background:
+          radial-gradient(
+            ellipse 80% 60% at 20% 20%,
+            rgba(180, 20, 80, 0.45) 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            ellipse 60% 70% at 80% 10%,
+            rgba(255, 60, 120, 0.25) 0%,
+            transparent 55%
+          ),
+          radial-gradient(
+            ellipse 90% 50% at 50% 100%,
+            rgba(120, 0, 60, 0.5) 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            ellipse 70% 80% at 90% 80%,
+            rgba(200, 30, 90, 0.3) 0%,
+            transparent 55%
+          ),
+          radial-gradient(
+            ellipse 100% 100% at 50% 50%,
+            #1a0010 0%,
+            #0d0008 100%
+          );
+      }
+
+      /* ── ANIMATED GRADIENT ORBS ── */
+      #bg-orbs {
+        position: fixed;
+        inset: 0;
+        z-index: 1;
+        overflow: hidden;
+        pointer-events: none;
+      }
+      .orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(60px);
+        opacity: 0.55;
+        animation: orbDrift linear infinite;
+        mix-blend-mode: screen;
+      }
+      .orb1 {
+        width: 45vw;
+        height: 45vw;
+        background: radial-gradient(circle, #ff3d7f, transparent 70%);
+        top: -10%;
+        left: -5%;
+        animation-duration: 18s;
+      }
+      .orb2 {
+        width: 35vw;
+        height: 35vw;
+        background: radial-gradient(circle, #c9184a, transparent 70%);
+        top: 60%;
+        right: -8%;
+        animation-duration: 22s;
+        animation-delay: -6s;
+      }
+      .orb3 {
+        width: 30vw;
+        height: 30vw;
+        background: radial-gradient(circle, #ff85a1, transparent 70%);
+        bottom: -5%;
+        left: 30%;
+        animation-duration: 16s;
+        animation-delay: -3s;
+      }
+      .orb4 {
+        width: 20vw;
+        height: 20vw;
+        background: radial-gradient(circle, #ff6b9d, transparent 70%);
+        top: 30%;
+        left: 60%;
+        animation-duration: 14s;
+        animation-delay: -8s;
+        opacity: 0.35;
+      }
+      @keyframes orbDrift {
+        0% {
+          transform: translate(0, 0) scale(1);
+        }
+        25% {
+          transform: translate(4vw, -3vh) scale(1.08);
+        }
+        50% {
+          transform: translate(-3vw, 5vh) scale(0.95);
+        }
+        75% {
+          transform: translate(2vw, 2vh) scale(1.05);
+        }
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+      }
+
+      /* ── NOISE GRAIN OVERLAY ── */
+      #bg-grain {
+        position: fixed;
+        inset: 0;
+        z-index: 2;
+        pointer-events: none;
+        opacity: 0.04;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        background-size: 200px 200px;
+      }
+
+      #bg-canvas {
+        position: fixed;
+        inset: 0;
+        z-index: 3;
+      }
+
+      .scene {
+        position: relative;
+        z-index: 4;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: clamp(10px, 2.5vh, 24px);
+        padding: 20px;
+      }
+
+      /* TITLE */
+      .title {
+        text-align: center;
+        animation: fadeDown 1.2s ease both;
+      }
+      .title h1 {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        font-size: clamp(2rem, 7vw, 5rem);
+        color: #fff;
+        line-height: 1.1;
+        text-shadow:
+          0 0 40px rgba(255, 107, 157, 0.8),
+          0 2px 20px rgba(201, 24, 74, 0.6);
+      }
+      .title p {
+        margin-top: 8px;
+        font-size: clamp(0.9rem, 2.5vw, 1.3rem);
+        color: #ffb3c6;
+        font-weight: 300;
+        letter-spacing: 0.06em;
+      }
+
+      /* CARD */
+      .card {
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid rgba(255, 150, 180, 0.25);
+        border-radius: 28px;
+        padding: clamp(18px, 3.5vw, 36px) clamp(22px, 5vw, 52px);
+        text-align: center;
+        box-shadow:
+          0 8px 40px rgba(0, 0, 0, 0.4),
+          inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        animation: fadeUp 1.2s 0.3s ease both;
+        max-width: 520px;
+        width: 100%;
+      }
+      .card .question {
+        font-size: clamp(1.1rem, 3.5vw, 1.7rem);
+        color: #fff;
+        font-weight: 600;
+        margin-bottom: 6px;
+        text-shadow: 0 1px 10px rgba(255, 107, 157, 0.5);
+      }
+      .card .sub {
+        font-size: clamp(0.8rem, 2vw, 1rem);
+        color: #ffb3c6;
+        font-weight: 300;
+        min-height: 1.4em;
+        transition: all 0.3s;
+      }
+
+      /* YES BUTTON */
+      #btn-yes {
+        position: fixed;
+        background: linear-gradient(135deg, var(--pink) 0%, var(--deep) 100%);
+        color: #fff;
+        border: none;
+        border-radius: 50px;
+        font-family: "Noto Sans Thai", sans-serif;
+        font-size: clamp(1rem, 3.5vw, 1.5rem);
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 6px 28px rgba(201, 24, 74, 0.4);
+        transition:
+          width 0.4s cubic-bezier(0.34, 1.3, 0.64, 1),
+          height 0.4s cubic-bezier(0.34, 1.3, 0.64, 1),
+          font-size 0.4s cubic-bezier(0.34, 1.3, 0.64, 1),
+          border-radius 0.4s ease,
+          top 0.4s ease,
+          left 0.4s ease,
+          box-shadow 0.3s ease;
+        white-space: nowrap;
+        z-index: 5;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: fadeUp 1.2s 0.6s ease both;
+      }
+      #btn-yes:hover {
+        box-shadow: 0 10px 36px rgba(201, 24, 74, 0.55);
+      }
+      #btn-yes::after {
+        content: "";
+        position: absolute;
+        inset: -3px;
+        border-radius: inherit;
+        background: linear-gradient(135deg, #ffb3c6, var(--deep));
+        z-index: -1;
+        opacity: 0.5;
+        filter: blur(8px);
+      }
+      @keyframes yesPulse {
+        0%,
+        100% {
+          box-shadow: 0 6px 28px rgba(201, 24, 74, 0.4);
+        }
+        50% {
+          box-shadow: 0 12px 48px rgba(201, 24, 74, 0.65);
+        }
+      }
+
+      /* NO BUTTON */
+      #btn-no {
+        position: fixed;
+        z-index: 600;
+        background: rgba(255, 255, 255, 0.1);
+        color: #ffb3c6;
+        border: 1.5px solid rgba(255, 150, 180, 0.4);
+        border-radius: 50px;
+        padding: 0.65em 1.8em;
+        font-family: "Noto Sans Thai", sans-serif;
+        font-size: clamp(0.85rem, 2.3vw, 1.1rem);
+        font-weight: 500;
+        cursor: pointer;
+        white-space: nowrap;
+        box-shadow: 0 4px 18px rgba(255, 107, 157, 0.35);
+        animation: noWobble 2.2s ease-in-out infinite;
+        transform-origin: center;
+      }
+      /* Idle wobble — makes it look alive and teasable */
+      @keyframes noWobble {
+        0% {
+          transform: rotate(-3deg) scale(1.02);
+        }
+        20% {
+          transform: rotate(3.5deg) scale(1.05);
+        }
+        40% {
+          transform: rotate(-2deg) scale(0.97);
+        }
+        60% {
+          transform: rotate(4deg) scale(1.04);
+        }
+        80% {
+          transform: rotate(-2.5deg) scale(0.98);
+        }
+        100% {
+          transform: rotate(-3deg) scale(1.02);
+        }
+      }
+      /* Panic jump when dodging */
+      #btn-no.panic {
+        animation: noPanic 0.3s ease both !important;
+      }
+      @keyframes noPanic {
+        0% {
+          transform: scale(1.2) rotate(8deg);
+        }
+        25% {
+          transform: scale(0.8) rotate(-10deg);
+        }
+        50% {
+          transform: scale(1.15) rotate(7deg);
+        }
+        75% {
+          transform: scale(0.9) rotate(-5deg);
+        }
+        100% {
+          transform: scale(1) rotate(0deg);
+          animation: noWobble 2.2s ease-in-out infinite;
+        }
+      }
+
+      /* TAUNT BUBBLE above no-button */
+      #no-taunt {
+        position: fixed;
+        z-index: 601;
+        background: rgba(20, 0, 15, 0.85);
+        border: 1px solid rgba(255, 150, 180, 0.4);
+        border-radius: 14px;
+        padding: 6px 14px;
+        font-size: clamp(0.7rem, 1.8vw, 0.88rem);
+        color: #ffb3c6;
+        white-space: nowrap;
+        pointer-events: none;
+        box-shadow: 0 4px 14px rgba(255, 107, 157, 0.25);
+        opacity: 0;
+        transform: translateX(-50%) translateY(4px);
+        transition:
+          opacity 0.22s ease,
+          transform 0.22s ease;
+      }
+      #no-taunt::after {
+        content: "";
+        position: absolute;
+        bottom: -9px;
+        left: 50%;
+        transform: translateX(-50%);
+        border: 9px solid transparent;
+        border-top-color: rgba(255, 150, 180, 0.4);
+        border-bottom: none;
+      }
+      #no-taunt.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      /* SUCCESS OVERLAY */
+      #overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 200;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: radial-gradient(
+          ellipse at center,
+          #ff6b9d 0%,
+          #c9184a 100%
+        );
+      }
+      #overlay.show {
+        display: flex;
+        animation: overlayIn 0.5s ease both;
+      }
+      #overlay .big-heart {
+        font-size: clamp(5rem, 20vw, 12rem);
+        animation: heartBeat 1s infinite;
+        line-height: 1;
+      }
+      #overlay h2 {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        color: #fff;
+        font-size: clamp(1.8rem, 6vw, 4rem);
+        margin-top: 16px;
+        text-align: center;
+        text-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+      }
+      #overlay p {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: clamp(1rem, 3vw, 1.4rem);
+        margin-top: 10px;
+        text-align: center;
+      }
+
+      /* CONFETTI */
+      .confetti {
+        position: fixed;
+        border-radius: 2px;
+        animation: confettiFall linear forwards;
+        z-index: 300;
+        pointer-events: none;
+      }
+
+      /* KEYFRAMES */
+      @keyframes fadeDown {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes heartBeat {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        14% {
+          transform: scale(1.2);
+        }
+        28% {
+          transform: scale(1);
+        }
+        42% {
+          transform: scale(1.13);
+        }
+        70% {
+          transform: scale(1);
+        }
+      }
+      @keyframes overlayIn {
+        from {
+          opacity: 0;
+          transform: scale(0.88);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      @keyframes confettiFall {
+        0% {
+          transform: translateY(-20px) rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(105vh) rotate(720deg);
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="bg-base"></div>
+    <div id="bg-orbs">
+      <div class="orb orb1"></div>
+      <div class="orb orb2"></div>
+      <div class="orb orb3"></div>
+      <div class="orb orb4"></div>
+    </div>
+    <div id="bg-grain"></div>
+    <canvas id="bg-canvas"></canvas>
+
+    <div class="scene">
+      <div class="title">
+        <h1>Happy Valentine's Day พี่เเพทคนอ้วน</h1>
+        <p>เเด่พี่เเพทคนตุ๊ต๊ะจะสารภาพรัก ต่อน้องบอลสุดหล่อ 🌹</p>
+      </div>
+      <br />
+      <br />
+      <br />
+      <br />
+      <!-- <div class="card">
+        <p class="question">เธอจะเป็นแฟนฉันไหม? 💌</p>
+        <p class="sub" id="sub-text">คิดให้ดีนะ… มีแค่คำตอบเดียวที่ถูก</p>
+      </div> -->
+      <button id="btn-yes" onclick="onYes()">
+        พี่เเพทคนอ้วน รักน้องบอลสุดหล่อที่สุดในโลกเลย 💖
+      </button>
+    </div>
+
+    <div id="no-taunt">กดทะเเม้ะะะะ 😏</div>
+    <button id="btn-no">บ้อเว้ยยยยยยย 🙈</button>
+
+    <div id="overlay">
+      <div class="big-heart">💗</div>
+      <h2>อุ๊ยยยยยยย!! มีคนสารภาพรักอะเขินจังเล๊ยยยยยยยยยยยยยยยยยยยยยยยย</h2>
+      <p>ดีใจจังเล๊ยยยยยยยยยยยยยยยยยยยย</p>
+    </div>
+
+    <script>
+      // ════════════════════════════════════════
+      // CANVAS — multi-depth rotating heart + floating particles
+      // ════════════════════════════════════════
+      const canvas = document.getElementById("bg-canvas");
+      const ctx = canvas.getContext("2d");
+      let W,
+        H,
+        angle = 0;
+
+      const hx = (t) => 16 * Math.pow(Math.sin(t), 3);
+      const hy = (t) =>
+        -(
+          13 * Math.cos(t) -
+          5 * Math.cos(2 * t) -
+          2 * Math.cos(3 * t) -
+          Math.cos(4 * t)
+        );
+
+      // 3 depth layers: far (small,slow,dim), mid, near (large,fast,bright)
+      const LAYERS = [
+        {
+          count: 120,
+          speed: 0.0018,
+          scale: 0.018,
+          sizeMin: 6,
+          sizeMax: 9,
+          alpha: 0.25,
+          color: "#ff4d6d",
+        },
+        {
+          count: 180,
+          speed: 0.003,
+          scale: 0.028,
+          sizeMin: 10,
+          sizeMax: 14,
+          alpha: 0.5,
+          color: "#ff6b9d",
+        },
+        {
+          count: 80,
+          speed: 0.005,
+          scale: 0.038,
+          sizeMin: 14,
+          sizeMax: 20,
+          alpha: 0.8,
+          color: "#ffb3c6",
+        },
+      ];
+      let layers = [];
+
+      function buildDots() {
+        layers = LAYERS.map((cfg) => {
+          const dots = [];
+          for (let i = 0; i < cfg.count; i++) {
+            const t = (i / cfg.count) * Math.PI * 2;
+            dots.push({
+              tx: hx(t),
+              ty: hy(t),
+              phase: Math.random() * Math.PI * 2,
+              size: cfg.sizeMin + Math.random() * (cfg.sizeMax - cfg.sizeMin),
+              angleOffset: Math.random() * 0.4 - 0.2, // slight variation per dot
+            });
+          }
+          return { ...cfg, dots, angle: Math.random() * Math.PI * 2 };
+        });
+      }
+
+      // Floating ambient particles
+      const particles = Array.from({ length: 60 }, () => ({
+        x: Math.random(),
+        y: Math.random(),
+        size: 3 + Math.random() * 5,
+        vy: 0.00015 + Math.random() * 0.00025,
+        vx: (Math.random() - 0.5) * 0.00008,
+        alpha: 0.1 + Math.random() * 0.25,
+        phase: Math.random() * Math.PI * 2,
+      }));
+
+      function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+
+      function render(ts) {
+        ctx.clearRect(0, 0, W, H);
+        const cx = W / 2,
+          cy = H / 2;
+
+        // Draw each depth layer
+        layers.forEach((layer, li) => {
+          layer.angle += layer.speed;
+          const scale = Math.min(W, H) * layer.scale;
+          const cosA = Math.cos(layer.angle),
+            sinA = Math.sin(layer.angle);
+
+          layer.dots.forEach((d, i) => {
+            const pulse = 1 + 0.15 * Math.sin(ts * 0.0015 + d.phase);
+            const rx = d.tx * scale * pulse;
+            const ry = d.ty * scale * pulse;
+            const x = cx + rx * cosA - ry * sinA;
+            const y = cy + rx * sinA + ry * cosA;
+            const a =
+              layer.alpha *
+              (0.6 + 0.4 * Math.abs(Math.sin(ts * 0.0008 + d.phase)));
+            const sz = d.size * pulse;
+
+            ctx.save();
+            // Glow effect — only on near/mid layers
+            if (li >= 1) {
+              ctx.shadowColor = layer.color;
+              ctx.shadowBlur = li === 2 ? 14 : 6;
+            }
+            ctx.globalAlpha = a;
+            ctx.fillStyle = layer.color;
+            ctx.font = `${sz}px serif`;
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText("♥", x, y);
+            ctx.restore();
+          });
+        });
+
+        // Floating ambient heart particles (drift upward slowly)
+        particles.forEach((p) => {
+          p.y -= p.vy;
+          p.x += p.vx;
+          if (p.y < -0.05) {
+            p.y = 1.05;
+            p.x = Math.random();
+          }
+          if (p.x < -0.05 || p.x > 1.05) p.x = Math.random();
+          const px = p.x * W,
+            py = p.y * H;
+          const twinkle =
+            p.alpha * (0.5 + 0.5 * Math.sin(ts * 0.002 + p.phase));
+          ctx.save();
+          ctx.globalAlpha = twinkle;
+          ctx.shadowColor = "#ff6b9d";
+          ctx.shadowBlur = 6;
+          ctx.fillStyle = "#ff85a1";
+          ctx.font = `${p.size}px serif`;
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText("♥", px, py);
+          ctx.restore();
+        });
+
+        requestAnimationFrame(render);
+      }
+      window.addEventListener("resize", resize);
+      resize();
+      buildDots();
+      requestAnimationFrame(render);
+
+      // ════════════════════════════════════════
+      // YES — grows width & height to fill screen
+      // ════════════════════════════════════════
+      const btnYes = document.getElementById("btn-yes");
+      let escapeCount = 0;
+
+      // Track size as percentage of viewport
+      let yesPct = 0; // 0 = initial, 100 = fullscreen
+      const INIT_W_PX = 450,
+        INIT_H_PX = 80; // starting pixel size
+
+      // Set initial size & center position
+      function initYes() {
+        const vw = window.innerWidth,
+          vh = window.innerHeight;
+        btnYes.style.width = INIT_W_PX + "px";
+        btnYes.style.height = INIT_H_PX + "px";
+        btnYes.style.left = (vw - INIT_W_PX) / 2 + "px";
+        btnYes.style.top = (vh - INIT_H_PX) / 2 + 80 + "px";
+        btnYes.style.fontSize = "1rem";
+      }
+      initYes();
+      window.addEventListener("resize", () => {
+        if (yesPct === 0) initYes();
+      });
+
+      const subTexts = [
+        "กดบ้ถืกดอกอ้วนนนนน… 😅",
+        "กดถืกสิพาไปกินชาบูเร็ว 🏃‍♂️",
+        "ว้ายๆๆๆๆๆ จ้างให้กะนำบ้ทันดอก",
+        "กดโล้ดน๊ายอมเเพ้ได้เเล้ว 🥺",
+        "ว้ายๆตุต๊ะกดบ้ถ์กว้ายยยย 😏",
+        "เร็วอีกๆช้าโพดดดดดดดดดดดด 💕",
+        "กดบ้ถืกต้องหอมแก้มเค้าาาาาาาาาาาาาาาาา 😂",
+      ];
+
+      function growYes() {
+        escapeCount++;
+        const vw = window.innerWidth,
+          vh = window.innerHeight;
+
+        // Each escape adds 12% toward fullscreen — reaches 100% in ~8 escapes
+        yesPct = Math.min(100, yesPct + 12);
+        const t = yesPct / 100; // 0→1
+
+        // Interpolate: start size → 100vw / 100vh
+        const w = INIT_W_PX + (vw - INIT_W_PX) * t;
+        const h = INIT_H_PX + (vh - INIT_H_PX) * t;
+        const x = (vw - w) / 2;
+        const y = (vh - h) / 2;
+
+        // Border-radius: 50px → 0 as it fills screen
+        const radius = Math.round(50 * (1 - t));
+
+        // Font size grows proportionally
+        const fs = 1.2 + t * 4; // 1.2rem → 5.2rem
+
+        btnYes.style.width = w + "px";
+        btnYes.style.height = h + "px";
+        btnYes.style.left = x + "px";
+        btnYes.style.top = y + "px";
+        btnYes.style.borderRadius = radius + "px";
+        btnYes.style.fontSize = fs + "rem";
+
+        // Update sub-text
+        const idx = Math.min(escapeCount - 1, subTexts.length - 1);
+        document.getElementById("sub-text").textContent = subTexts[idx];
+      }
+
+      // ════════════════════════════════════════
+      // NO BUTTON — dodge + tease
+      // ════════════════════════════════════════
+      const btnNo = document.getElementById("btn-no");
+      const tauntEl = document.getElementById("no-taunt");
+      let tauntTimer = null;
+      let dodgeCount = 0;
+      let lastDodge = 0;
+      const COOLDOWN = 180; // ms – prevent spam
+
+      const taunts = [
+        "กดบ้ถืกดอกอ้วนนนนน… 😅",
+        "กดถืกสิพาไปกินชาบูเร็ว 🏃♂️",
+        "ว้ายๆๆๆๆๆ จ้างให้กะนำบ้ทันดอก",
+        "กดโล้ดน๊ายอมเเพ้ได้เเล้ว 🥺",
+        "ว้ายๆตุต๊ะกดบ้ถ์กว้ายยยย 😏",
+        "เร็วอีกๆช้าโพดดดดดดดดดดดด 💕",
+        "กดบ้ถืกต้องหอมแก้มเค้าาาาาาาาาาาาาาาาา 😂",
+      ];
+
+      function initNo() {
+        btnNo.style.left = window.innerWidth * 0.63 + "px";
+        btnNo.style.top = window.innerHeight * 0.6 + "px";
+      }
+      initNo();
+      window.addEventListener("resize", initNo);
+
+      function randomPos() {
+        const vw = window.innerWidth,
+          vh = window.innerHeight;
+        const w = btnNo.offsetWidth || 140,
+          h = btnNo.offsetHeight || 48;
+        const m = 30;
+        return {
+          x: m + Math.random() * (vw - w - m * 2),
+          y: m + Math.random() * (vh - h - m * 2),
+        };
+      }
+
+      function showTaunt(x, y, msg) {
+        tauntEl.textContent = msg;
+        tauntEl.style.left = x + "px";
+        tauntEl.style.top = y - 52 + "px";
+        tauntEl.classList.add("show");
+        clearTimeout(tauntTimer);
+        tauntTimer = setTimeout(() => tauntEl.classList.remove("show"), 1600);
+      }
+
+      function dodge() {
+        const now = Date.now();
+        if (now - lastDodge < COOLDOWN) return;
+        lastDodge = now;
+
+        // panic wiggle
+        btnNo.classList.remove("panic");
+        void btnNo.offsetWidth;
+        btnNo.classList.add("panic");
+        setTimeout(() => btnNo.classList.remove("panic"), 350);
+
+        // find position far from YES button
+        const yr = btnYes.getBoundingClientRect();
+        let pos,
+          dist = 0,
+          tries = 0;
+        do {
+          pos = randomPos();
+          dist = Math.hypot(
+            pos.x - yr.left - yr.width / 2,
+            pos.y - yr.top - yr.height / 2,
+          );
+          tries++;
+          if (tries > 40) break;
+        } while (dist < 220);
+
+        btnNo.style.transition =
+          "left .22s cubic-bezier(.34,1.8,.64,1), top .22s cubic-bezier(.34,1.8,.64,1)";
+        btnNo.style.left = pos.x + "px";
+        btnNo.style.top = pos.y + "px";
+
+        // show taunt at new position after transition
+        setTimeout(() => {
+          const r = btnNo.getBoundingClientRect();
+          showTaunt(
+            r.left + r.width / 2,
+            r.top,
+            taunts[dodgeCount % taunts.length],
+          );
+        }, 230);
+
+        // shrink no-button gradually
+        dodgeCount++;
+        const noFontSize = Math.max(8, 18 - dodgeCount * 1.4);
+        btnNo.style.fontSize = noFontSize + "px";
+        if (dodgeCount >= 4)
+          btnNo.style.opacity = String(Math.max(0.25, 1 - dodgeCount * 0.1));
+        if (dodgeCount >= 10) btnNo.style.opacity = "0.15";
+
+        // When yes button is fullscreen, hide no button forever
+        if (yesPct >= 100) {
+          btnNo.style.transition = "opacity .5s ease, transform .5s ease";
+          btnNo.style.opacity = "0";
+          btnNo.style.transform = "scale(0)";
+          btnNo.style.pointerEvents = "none";
+          tauntEl.classList.remove("show");
+        }
+
+        growYes();
+      }
+
+      // Dodge when cursor comes within 90px — feels magical
+      let mmTimer;
+      document.addEventListener("mousemove", (e) => {
+        const r = btnNo.getBoundingClientRect();
+        const dist = Math.hypot(
+          e.clientX - (r.left + r.width / 2),
+          e.clientY - (r.top + r.height / 2),
+        );
+        if (dist < 90) {
+          clearTimeout(mmTimer);
+          mmTimer = setTimeout(dodge, 0);
+        }
+      });
+
+      // Touch: dodge as soon as touch moves near the button
+      document.addEventListener(
+        "touchmove",
+        (e) => {
+          const t = e.touches[0];
+          const r = btnNo.getBoundingClientRect();
+          const dist = Math.hypot(
+            t.clientX - (r.left + r.width / 2),
+            t.clientY - (r.top + r.height / 2),
+          );
+          if (dist < 100) dodge();
+        },
+        { passive: true },
+      );
+
+      btnNo.addEventListener("mouseenter", dodge);
+      btnNo.addEventListener(
+        "touchstart",
+        (e) => {
+          e.preventDefault();
+          dodge();
+        },
+        { passive: false },
+      );
+      btnNo.addEventListener("click", (e) => {
+        e.preventDefault();
+        dodge();
+      });
+
+      // ════════════════════════════════════════
+      // YES handler + confetti
+      // ════════════════════════════════════════
+      function onYes() {
+        document.getElementById("overlay").classList.add("show");
+        spawnConfetti(180);
+      }
+
+      function spawnConfetti(n) {
+        const colors = [
+          "#ff6b9d",
+          "#c9184a",
+          "#ffb3c6",
+          "#ff4d6d",
+          "#fff",
+          "#ffd6e0",
+          "#ff85a1",
+          "#ffec99",
+        ];
+        for (let i = 0; i < n; i++) {
+          const el = document.createElement("div");
+          el.className = "confetti";
+          const dur = 2 + Math.random() * 2.8;
+          el.style.cssText = `
+      left:${Math.random() * 100}vw; top:-14px;
+      background:${colors[Math.floor(Math.random() * colors.length)]};
+      width:${6 + Math.random() * 12}px; height:${6 + Math.random() * 12}px;
+      border-radius:${Math.random() > 0.5 ? "50%" : "3px"};
+      animation-duration:${dur}s;
+      animation-delay:${Math.random() * 1.4}s;
+    `;
+          document.body.appendChild(el);
+          setTimeout(() => el.remove(), (dur + 1.4) * 1000);
+        }
+      }
+      document
+        .getElementById("overlay")
+        .addEventListener("click", () => spawnConfetti(90));
+    </script>
+  </body>
+</html>
