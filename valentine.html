@@ -132,16 +132,7 @@
         }
       }
 
-      /* ── NOISE GRAIN OVERLAY ── */
-      #bg-grain {
-        position: fixed;
-        inset: 0;
-        z-index: 2;
-        pointer-events: none;
-        opacity: 0.04;
-        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-        background-size: 200px 200px;
-      }
+      /* #bg-grain removed for performance */
 
       #bg-canvas {
         position: fixed;
@@ -236,12 +227,15 @@
           top 0.4s ease,
           left 0.4s ease,
           box-shadow 0.3s ease;
-        white-space: nowrap;
+        white-space: pre-wrap; /* Allows text to wrap */
         z-index: 5;
         overflow: hidden;
         display: flex;
         align-items: center;
         justify-content: center;
+        text-align: center;
+        line-height: 1.2;
+        padding: 10px;
         animation: fadeUp 1.2s 0.6s ease both;
       }
       #btn-yes:hover {
@@ -401,6 +395,16 @@
         font-size: clamp(1rem, 3vw, 1.4rem);
         margin-top: 10px;
         text-align: center;
+        z-index: 2; /* Text over video */
+      }
+      #overlay video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.6; /* Slight fade so text is readable */
+        z-index: 1; /* Video behind text */
       }
 
       /* CONFETTI */
@@ -475,20 +479,20 @@
   </head>
   <body>
     <div id="bg-base"></div>
-    <div id="bg-orbs">
-      <div class="orb orb1"></div>
-      <div class="orb orb2"></div>
-      <div class="orb orb3"></div>
-      <div class="orb orb4"></div>
-    </div>
-    <div id="bg-grain"></div>
-    <canvas id="bg-canvas"></canvas>
+    <!-- Background animations removed -->
 
     <div class="scene">
       <div class="title">
         <h1>Happy Valentine's Day พี่เเพทคนอ้วน</h1>
         <p>เเด่พี่เเพทคนตุ๊ต๊ะจะสารภาพรัก ต่อน้องบอลสุดหล่อ 🌹</p>
       </div>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
       <br />
       <br />
       <br />
@@ -503,169 +507,25 @@
     </div>
 
     <div id="no-taunt">กดทะเเม้ะะะะ 😏</div>
-    <button id="btn-no">บ้อเว้ยยยยยยย 🙈</button>
+    <br />
+    <br />
+    <br />
+    <br />
+    <button id="btn-no">บ้อเว้ย</button>
 
     <div id="overlay">
-      <div class="big-heart">💗</div>
-      <h2>อุ๊ยยยยยยย!! มีคนสารภาพรักอะเขินจังเล๊ยยยยยยยยยยยยยยยยยยยยยยยย</h2>
-      <p>ดีใจจังเล๊ยยยยยยยยยยยยยยยยยยยย</p>
+      <video autoplay muted loop playsinline>
+        <source src="iphone 1508.MOV" type="video/quicktime" />
+        <source src="iphone 1508.MOV" type="video/mp4" />
+      </video>
+      <div style="position: relative; z-index: 2">
+        <div class="big-heart">💗</div>
+        <h2>อุ๊ยยยยยยย!! มีคนสารภาพรักอะเขินจังเล๊ยยยยยยยยยยยย</h2>
+        <p>ดีใจจังเล๊ยยยยยยยยยยยย</p>
+      </div>
     </div>
 
     <script>
-      // ════════════════════════════════════════
-      // CANVAS — multi-depth rotating heart + floating particles
-      // ════════════════════════════════════════
-      const canvas = document.getElementById("bg-canvas");
-      const ctx = canvas.getContext("2d");
-      let W,
-        H,
-        angle = 0;
-
-      const hx = (t) => 16 * Math.pow(Math.sin(t), 3);
-      const hy = (t) =>
-        -(
-          13 * Math.cos(t) -
-          5 * Math.cos(2 * t) -
-          2 * Math.cos(3 * t) -
-          Math.cos(4 * t)
-        );
-
-      // 3 depth layers: far (small,slow,dim), mid, near (large,fast,bright)
-      const LAYERS = [
-        {
-          count: 120,
-          speed: 0.0018,
-          scale: 0.018,
-          sizeMin: 6,
-          sizeMax: 9,
-          alpha: 0.25,
-          color: "#ff4d6d",
-        },
-        {
-          count: 180,
-          speed: 0.003,
-          scale: 0.028,
-          sizeMin: 10,
-          sizeMax: 14,
-          alpha: 0.5,
-          color: "#ff6b9d",
-        },
-        {
-          count: 80,
-          speed: 0.005,
-          scale: 0.038,
-          sizeMin: 14,
-          sizeMax: 20,
-          alpha: 0.8,
-          color: "#ffb3c6",
-        },
-      ];
-      let layers = [];
-
-      function buildDots() {
-        layers = LAYERS.map((cfg) => {
-          const dots = [];
-          for (let i = 0; i < cfg.count; i++) {
-            const t = (i / cfg.count) * Math.PI * 2;
-            dots.push({
-              tx: hx(t),
-              ty: hy(t),
-              phase: Math.random() * Math.PI * 2,
-              size: cfg.sizeMin + Math.random() * (cfg.sizeMax - cfg.sizeMin),
-              angleOffset: Math.random() * 0.4 - 0.2, // slight variation per dot
-            });
-          }
-          return { ...cfg, dots, angle: Math.random() * Math.PI * 2 };
-        });
-      }
-
-      // Floating ambient particles
-      const particles = Array.from({ length: 60 }, () => ({
-        x: Math.random(),
-        y: Math.random(),
-        size: 3 + Math.random() * 5,
-        vy: 0.00015 + Math.random() * 0.00025,
-        vx: (Math.random() - 0.5) * 0.00008,
-        alpha: 0.1 + Math.random() * 0.25,
-        phase: Math.random() * Math.PI * 2,
-      }));
-
-      function resize() {
-        W = canvas.width = window.innerWidth;
-        H = canvas.height = window.innerHeight;
-      }
-
-      function render(ts) {
-        ctx.clearRect(0, 0, W, H);
-        const cx = W / 2,
-          cy = H / 2;
-
-        // Draw each depth layer
-        layers.forEach((layer, li) => {
-          layer.angle += layer.speed;
-          const scale = Math.min(W, H) * layer.scale;
-          const cosA = Math.cos(layer.angle),
-            sinA = Math.sin(layer.angle);
-
-          layer.dots.forEach((d, i) => {
-            const pulse = 1 + 0.15 * Math.sin(ts * 0.0015 + d.phase);
-            const rx = d.tx * scale * pulse;
-            const ry = d.ty * scale * pulse;
-            const x = cx + rx * cosA - ry * sinA;
-            const y = cy + rx * sinA + ry * cosA;
-            const a =
-              layer.alpha *
-              (0.6 + 0.4 * Math.abs(Math.sin(ts * 0.0008 + d.phase)));
-            const sz = d.size * pulse;
-
-            ctx.save();
-            // Glow effect — only on near/mid layers
-            if (li >= 1) {
-              ctx.shadowColor = layer.color;
-              ctx.shadowBlur = li === 2 ? 14 : 6;
-            }
-            ctx.globalAlpha = a;
-            ctx.fillStyle = layer.color;
-            ctx.font = `${sz}px serif`;
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
-            ctx.fillText("♥", x, y);
-            ctx.restore();
-          });
-        });
-
-        // Floating ambient heart particles (drift upward slowly)
-        particles.forEach((p) => {
-          p.y -= p.vy;
-          p.x += p.vx;
-          if (p.y < -0.05) {
-            p.y = 1.05;
-            p.x = Math.random();
-          }
-          if (p.x < -0.05 || p.x > 1.05) p.x = Math.random();
-          const px = p.x * W,
-            py = p.y * H;
-          const twinkle =
-            p.alpha * (0.5 + 0.5 * Math.sin(ts * 0.002 + p.phase));
-          ctx.save();
-          ctx.globalAlpha = twinkle;
-          ctx.shadowColor = "#ff6b9d";
-          ctx.shadowBlur = 6;
-          ctx.fillStyle = "#ff85a1";
-          ctx.font = `${p.size}px serif`;
-          ctx.textAlign = "center";
-          ctx.textBaseline = "middle";
-          ctx.fillText("♥", px, py);
-          ctx.restore();
-        });
-
-        requestAnimationFrame(render);
-      }
-      window.addEventListener("resize", resize);
-      resize();
-      buildDots();
-      requestAnimationFrame(render);
-
       // ════════════════════════════════════════
       // YES — grows width & height to fill screen
       // ════════════════════════════════════════
@@ -743,7 +603,7 @@
       let tauntTimer = null;
       let dodgeCount = 0;
       let lastDodge = 0;
-      const COOLDOWN = 180; // ms – prevent spam
+      const COOLDOWN = 5; // ms – SUPER FAST REFLEXES
 
       const taunts = [
         "กดบ้ถืกดอกอ้วนนนนน… 😅",
@@ -757,7 +617,7 @@
 
       function initNo() {
         btnNo.style.left = window.innerWidth * 0.63 + "px";
-        btnNo.style.top = window.innerHeight * 0.6 + "px";
+        btnNo.style.top = window.innerHeight * 0.75 + 50 + "px";
       }
       initNo();
       window.addEventListener("resize", initNo);
@@ -810,7 +670,7 @@
         } while (dist < 220);
 
         btnNo.style.transition =
-          "left .22s cubic-bezier(.34,1.8,.64,1), top .22s cubic-bezier(.34,1.8,.64,1)";
+          "left .1s cubic-bezier(.34,1.8,.64,1), top .1s cubic-bezier(.34,1.8,.64,1)";
         btnNo.style.left = pos.x + "px";
         btnNo.style.top = pos.y + "px";
 
@@ -859,6 +719,7 @@
       });
 
       // Touch: dodge as soon as touch moves near the button
+      // ALSO dodge if they just tap anywhere near it!
       document.addEventListener(
         "touchmove",
         (e) => {
@@ -869,6 +730,21 @@
             t.clientY - (r.top + r.height / 2),
           );
           if (dist < 100) dodge();
+        },
+        { passive: true },
+      );
+
+      document.addEventListener(
+        "touchstart",
+        (e) => {
+          const t = e.touches[0];
+          const r = btnNo.getBoundingClientRect();
+          const dist = Math.hypot(
+            t.clientX - (r.left + r.width / 2),
+            t.clientY - (r.top + r.height / 2),
+          );
+          // If tap is close (start of press), run away!
+          if (dist < 130) dodge();
         },
         { passive: true },
       );
